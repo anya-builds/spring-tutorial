@@ -13,7 +13,7 @@ public class MainApp {
         ApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
         GreetingService greetingService =
-                context.getBean("myBean", GreetingService.class);
+                context.getBean(GreetingService.class);
         greetingService.sayHello();
 
         UserService userServiceSMS =
