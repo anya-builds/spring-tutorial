@@ -9,9 +9,15 @@
     </bean>
     <bean id="emailNotificationService"
           class="com.example.loose.EmailNotificationService"/>
+    <bean id="SMSNotificationService" class="com.example.loose.SMSNotificationService">
 
-    <bean id="userService"
+    </bean>
+    <bean id="userServiceEmail"
           class="com.example.loose.UserService">
         <constructor-arg ref="emailNotificationService"/>
+    </bean>
+    <bean id="userServiceSMS"
+          class="com.example.loose.UserService">
+        <constructor-arg ref="SMSNotificationService"/>
     </bean>
 </beans>
