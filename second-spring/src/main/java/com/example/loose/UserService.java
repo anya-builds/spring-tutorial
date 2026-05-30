@@ -8,8 +8,13 @@ import org.springframework.stereotype.Component;
 public class UserService {
     NotificationService notificationService;
 
+//    @Autowired
+//    public UserService(@Qualifier("emailNotificationService") NotificationService notificationService) {
+//        this.notificationService = notificationService;
+//    }
+
     @Autowired
-    public UserService(@Qualifier("emailNotificationService") NotificationService notificationService) {
+    public UserService( NotificationService notificationService) {
         this.notificationService = notificationService;
     }
     public void notifyUser(String message){
