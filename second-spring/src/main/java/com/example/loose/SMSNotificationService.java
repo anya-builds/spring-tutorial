@@ -1,5 +1,8 @@
 package com.example.loose;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SMSNotificationService implements NotificationService {
 
     @Override

@@ -8,16 +8,17 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MainApp {
     public static void main(String[] args) {
 
+//        ApplicationContext context =
+//                new AnnotationConfigApplicationContext(AppConfig.class);
         ApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
-
         GreetingService greetingService =
                 context.getBean("myBean", GreetingService.class);
         greetingService.sayHello();
 
-//        UserService userServiceSMS =
-//                context.getBean("userServiceSMS", UserService.class);
-//        userServiceSMS.notifyUser("Whats up!");
+        UserService userServiceSMS =
+                context.getBean("userServiceSMS", UserService.class);
+        userServiceSMS.notifyUser("Whats up!");
 //
 //        UserService userServiceEmail =
 //                context.getBean("userServiceEmail", UserService.class);
