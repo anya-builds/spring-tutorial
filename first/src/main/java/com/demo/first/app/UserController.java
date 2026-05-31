@@ -37,11 +37,51 @@ public class UserController {
         if(!userDb.containsKey(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         userDb.remove(id);
-        return ResponseEntity.ok("user deleted");
+//        return ResponseEntity.ok("user deleted");
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public List<User> getUsers(){
         return new ArrayList<>(userDb.values());
+    }
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable("userId") int id){
+        if(!userDb.containsKey(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(userDb.get(id));
+    }
+
+    @GetMapping("/{userId}/orders/{orderId}")
+    public ResponseEntity<User> getUserOrder(
+            @PathVariable(value = "userId", required = false) int id,
+            @PathVariable int orderId
+            ){
+        System.out.println("ORDER ID: "+orderId);
+        if(!userDb.containsKey(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(userDb.get(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUsers(
+            @RequestParam (required = false, defaultValue = "alice") String name,
+            @RequestParam (required = false, defaultValue = "email") String email){
+        System.out.println(name);
+        List<User> users=userDb.values().stream()
+                .filter(u -> u.getName().equalsIgnoreCase(name))
+                .filter(u -> u.getEmail().equalsIgnoreCase(email))
+                .toList();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/info/{id}")
+    public String getInfo(
+            @PathVariable int id,
+            @RequestParam String name,
+            @RequestHeader("User-Agent") String userAgent){
+        return "User Agent: "+userAgent
+                +" : "+id
+                +" : "+name;
     }
 }
