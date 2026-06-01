@@ -16,8 +16,13 @@ import java.util.Map;
 @Service
 public class UserService {
     private Map<Integer, User> userDb = new HashMap<>();
-    private final Logger logger= LoggerFactory.getLogger(UserController.class);
+    private final Logger logger= LoggerFactory.getLogger(UserService.class);
     public User createUser(User user) {
+        logger.info("Creating user.... INFO");
+        logger.debug("Creating user.... DEBUG");
+        logger.trace("Creating user.... TRACE");
+        logger.warn("Creating user.... WARN");
+        logger.error("Creating user.... ERROR");
         System.out.println(user.getEmail());
         userDb.putIfAbsent(user.getId(), user);
 
