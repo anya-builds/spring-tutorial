@@ -2,17 +2,21 @@ package com.demo.first.app.controller;
 
 import com.demo.first.app.model.User;
 import com.demo.first.app.service.UserService;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     private UserService userService=new UserService();
+
+
 
 
     public UserController(UserService userService) {
