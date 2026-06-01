@@ -36,6 +36,8 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
+        if(userDb.isEmpty())
+            throw new NullPointerException("No users found in the database");
         return new ArrayList<>(userDb.values());
     }
 
