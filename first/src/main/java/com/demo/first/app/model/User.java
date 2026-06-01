@@ -1,4 +1,4 @@
-package com.demo.first.app;
+package com.demo.first.app.model;
 // POJO= plain old java objects
 public class User {
     private int id;
