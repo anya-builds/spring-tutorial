@@ -30,8 +30,11 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-        if (!userDb.containsKey(user.getId()))
-            throw new UserNotFoundException("User with ID "+user.getId() + " does not exist");
+        if (!userDb.containsKey(user.getId())) {
+            logger.error("Error when finding user with id {}",user.getId());
+            throw new UserNotFoundException("User with ID " + user.getId() + " does not exist");
+
+        }
         userDb.put(user.getId(), user);
         return user;
     }
