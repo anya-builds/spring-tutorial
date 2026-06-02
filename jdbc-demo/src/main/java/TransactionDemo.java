@@ -19,7 +19,7 @@ public class TransactionDemo {
             //manual commit
             conn.commit();
             System.out.println("Transaction committed successfully");
-        }catch (SQLException e){
+        }catch (Exception e){
             e.printStackTrace();
             conn.rollback();
             System.out.println("Operation rollback successfully");
@@ -41,7 +41,7 @@ public class TransactionDemo {
             pstmt.setString(2,productName);
             pstmt.setInt(3,quantity);
             pstmt.setDouble(4,price);
-            int x=10/0;
+//            int x=10/0;
             int rows=pstmt.executeUpdate();
             System.out.println("INSERTED into order items: "+rows);
         }catch (SQLException e){
