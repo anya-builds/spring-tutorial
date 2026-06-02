@@ -9,9 +9,11 @@ public class JDBCDemo {
     public static void main(String[] args) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             System.out.println("Connected to the database!");
-//            insertStudent(conn, "Alice", "alice@gmil.com");
-            updateStudent(conn,1,"Bob","alice@gmail.com");
+//            insertStudent(conn, "Java\"); DROP TABLE student; --", "hack@example.com");
+            insertStudent(conn,"Alice","alice@gmail.com");
+            updateStudent(conn,2,"Bob","alice@gmail.com");
             selectStudent(conn);
+//            deleteStudent(conn,1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,12 +48,27 @@ public class JDBCDemo {
     }
 
     private  static void updateStudent(Connection conn,int id,String name,String email){
-        String sql = "UPDATE student SET name = '" + name + "', email = '" + email + "' WHERE id = " + id;
+//        String sql = "UPDATE student SET name = '" + name + "', email = '" + email + "' WHERE id = " + id;
+        String sql = "UPDATE student SET name = ?, email = ? WHERE id = ?";
         // UPDATE student set name ='Alice',email='email@gmail.com'
         // where id=10;
-        try (Statement stmt = conn.createStatement()){
-            int rows=stmt.executeUpdate(sql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1,name);
+            pstmt.setString(2,email);
+            pstmt.setInt(3,id);
+            int rows=pstmt.executeUpdate();
             System.out.println("UPDATED: "+rows);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    private static void deleteStudent(Connection conn,int id){
+        String sql="DELETE FROM student WHERE id= "+id;
+        try (Statement stmt=conn.createStatement()){
+            int rows=stmt.executeUpdate(sql);
+            System.out.println("DELETED: "+rows);
 
         }catch (SQLException e){
             e.printStackTrace();
