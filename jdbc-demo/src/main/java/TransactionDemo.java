@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class TransactionDemo {
     private static final String URL="jdbc:mysql://localhost:3306/feedback_db";
@@ -23,14 +20,41 @@ public class TransactionDemo {
 
  }
 
-    private static int insertOrder(Connection conn, int customerId, String customerName, double price) {
-     String sql="INSERT INTO orders (user_id,customer_name, total_amount) values (?,?,?)";
-     try (PreparedStatement pstmt=conn.prepareStatement(sql)){
-            pstmt.setInt(1,customerId);
-            pstmt.setString(2,customerName);
-            pstmt.setDouble(3,price);
-     }catch (SQLException e){
-         e.printStackTrace();
-     }
+    private static void insertOrderItem(Connection conn, int orderId, String productName, int quantity, double price) {
+        String sql="INSERT INTO order_items (order_id,product_name, quantity,price) values (?,?,?,?)";
+        try (PreparedStatement pstmt=conn.prepareStatement(sql)){
+            pstmt.setInt(1,orderId);
+            pstmt.setString(2,productName);
+            pstmt.setInt(3,quantity);
+            pstmt.setDouble(4,price);
+            int rows=pstmt.executeUpdate();
+            System.out.println("INSERTED into order items: "+rows);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
+
+    private static int insertOrder(Connection conn, int customerId, String customerName, double price) {
+        String sql = "INSERT INTO orders (user_id,customer_name, total_amount) values (?,?,?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, customerId);
+            pstmt.setString(2, customerName);
+            pstmt.setDouble(3, price);
+            int rows = pstmt.executeUpdate();
+            System.out.println("INSERTED into users: " + rows);
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int orderId = rs.getInt(1);
+                    System.out.println("ORDER ID: " + orderId);
+                    return orderId;
+                } else {
+                    throw new SQLException("Order ID not generated");
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 }
