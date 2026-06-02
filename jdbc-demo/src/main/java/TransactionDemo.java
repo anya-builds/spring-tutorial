@@ -7,12 +7,26 @@ public class TransactionDemo {
  public static void main(String[] args) {
      try (Connection conn= DriverManager.getConnection(URL,USER,PASSWORD)){
          System.out.println("Connected to the database");
+        //turned off auto commit == no auto save
+         conn.setAutoCommit(false);
+        try {
+            //order , orderItems
+            //insert into order
+            int orderId= insertOrder(conn,101,"Alice01",2000.0);
+            //insert into order item
+            insertOrderItem(conn, orderId,"Laptop01",1,2000.0);
 
-         //order , orderItems
-         //insert into order
-         int orderId= insertOrder(conn,101,"Alice01",2000.0);
-         //insert into order item
-         insertOrderItem(conn, orderId,"Laptop01",1,2000.0);
+            //manual commit
+            conn.commit();
+            System.out.println("Transaction committed successfully");
+        }catch (SQLException e){
+            e.printStackTrace();
+            conn.rollback();
+            System.out.println("Operation rollback successfully");
+        }finally {
+            conn.setAutoCommit(true);
+        }
+
      }catch (SQLException e){
          e.printStackTrace();
      }
@@ -27,6 +41,7 @@ public class TransactionDemo {
             pstmt.setString(2,productName);
             pstmt.setInt(3,quantity);
             pstmt.setDouble(4,price);
+            int x=10/0;
             int rows=pstmt.executeUpdate();
             System.out.println("INSERTED into order items: "+rows);
         }catch (SQLException e){
