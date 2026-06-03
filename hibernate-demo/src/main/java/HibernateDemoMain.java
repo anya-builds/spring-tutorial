@@ -8,8 +8,12 @@ public class HibernateDemoMain {
             UserClassHibernate user=new UserClassHibernate("Alice",1L);
             session.beginTransaction();
             session.persist(user);
+            session.getTransaction().commit();
+            System.out.println("User saved: "+user.getId());
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            HibernateUtil.close();
         }
     }
 }
