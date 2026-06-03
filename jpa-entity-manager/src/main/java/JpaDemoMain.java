@@ -1,19 +1,21 @@
 
+import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 
-public class HibernateDemoMain {
+public class JpaDemoMain {
     public static void main(String[] args) {
-        Session session=HibernateUtil.getSession();
+        EntityManager em=JPAUtil.getEntityManager();
         try{
             UserClassHibernate user=new UserClassHibernate("Alice",1L);
-            session.beginTransaction();
-            session.persist(user);
-            session.getTransaction().commit();
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
             System.out.println("User saved: "+user.getId());
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            HibernateUtil.close();
+            em.close();
+            JPAUtil.close();
         }
     }
 }
