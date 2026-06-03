@@ -5,14 +5,20 @@ import jakarta.persistence.Id;
 
 @Entity
 public class UserClassHibernate {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
+    public UserClassHibernate(){
+
+    }
     public UserClassHibernate(String name, Long id) {
         this.id = id;
         this.name = name;
+    }
+    public UserClassHibernate(String name){
+        this.name=name;
     }
 
     public Long getId() {

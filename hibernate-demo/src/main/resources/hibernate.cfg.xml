@@ -21,6 +21,6 @@
 
 
         <!-- Mapping entity class -->
-        <!--        <mapping class="UserClassHibernate"/>-->
+<!--                <mapping class="UserClassHibernate"/>-->
     </session-factory>
 </hibernate-configuration>
