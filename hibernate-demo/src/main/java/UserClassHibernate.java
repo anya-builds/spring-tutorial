@@ -11,7 +11,7 @@ public class UserClassHibernate {
     private String name;
 
     public UserClassHibernate(String name, Long id) {
-        this.name = name;
         this.id = id;
+        this.name = name;
     }
 }
