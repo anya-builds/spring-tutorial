@@ -3,6 +3,7 @@ package com.demo.first.app.service;
 import com.demo.first.app.controller.UserController;
 import com.demo.first.app.exception.UserNotFoundException;
 import com.demo.first.app.model.User;
+import com.demo.first.app.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,14 @@ import java.util.Map;
 
 @Service
 public class UserService {
-    private Map<Integer, User> userDb = new HashMap<>();
+    private UserRepository userRepository;
+//    private Map<Integer, User> userDb = new HashMap<>();
     private final Logger logger= LoggerFactory.getLogger(UserService.class);
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public User createUser(User user) {
         logger.info("Creating user.... INFO");
         logger.debug("Creating user.... DEBUG");
