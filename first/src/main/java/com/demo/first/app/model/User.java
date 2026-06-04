@@ -1,5 +1,7 @@
 package com.demo.first.app.model;
+import jakarta.persistence.ID;
 // POJO= plain old java objects
+@Entity
 public class User {
     private int id;
     private String name;
